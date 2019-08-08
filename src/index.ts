@@ -3,9 +3,11 @@ import * as logger from 'morgan';
 import * as bookRoutes from './routes/books';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
+import * as cors from 'cors';
 
 const port = process.env.PORT || 8000;
 const app = express();
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
