@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "tsc -p . && node build/index.js"
+    "start": "node_modules/typescript/bin/tsc -p . && node build/index.js"
   },
   "keywords": [],
   "author": "",
