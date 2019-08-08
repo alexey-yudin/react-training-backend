@@ -4,7 +4,7 @@ export interface Book {
   id: number;
   image: string;
   title: string;
-  description: string;
+  text: string;
   price: number;
   type: BookType;
 }
