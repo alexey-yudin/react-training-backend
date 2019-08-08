@@ -18,8 +18,6 @@ class BooksController {
 
   getById = (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
-    console.log(id);
-
     const book = this._books.find(bookItem => bookItem.id === id);
     const response: BookGetByIdResponse = {book};
 
