@@ -3,9 +3,9 @@ import * as express from 'express';
 
 const router = express.Router();
 
-router.get('/get-books', booksController.getBooks);
-router.get('/get-by-id/:id', booksController.getById);
-router.post('/create-book', booksController.createBook);
-router.post('/update-book/:id', booksController.uploadBook);
+router.get('/books', booksController.getBooks);
+router.get('/book/:id', booksController.getById);
+router.post('/book', booksController.createBook);
+router.patch('/book/:id', booksController.uploadBook);
 
 export = router;

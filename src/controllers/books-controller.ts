@@ -1,46 +1,59 @@
 import { Request, Response } from 'express';
 import { booksData } from '../data/books-data';
-import { GetBooksResponse } from '../models/get-books-response';
-import { CreateBookResponse } from '../models/create-book-response';
-import { UpdateBookResponse } from '../models/update-book-response';
-import {BookGetByIdResponse} from '../models/book-get-by-id-response';
+import {Book} from '../models/book';
 
 class BooksController {
   private _books = [...booksData];
 
   getBooks = (req: Request, res: Response) => {
-    const response: GetBooksResponse = {
-      books: this._books
-    };
-
-    return res.json(response);
+    return res.json(this._books);
   };
 
   getById = (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
     const book = this._books.find(bookItem => bookItem.id === id);
-    const response: BookGetByIdResponse = {book};
 
-    return res.json(response);
+    return res.json(book);
   };
 
   createBook = (req: Request, res: Response) => {
-    const book = { ...req.body };
+    const book: Book = {
+      id: this._books.length + 1,
+      title: req.body.title || 'Default title',
+      price: 0,
+      image: '/images/default-image.jpg',
+      description: req.body.description || 'Default description',
+      type: req.body.type
+    };
+
     this._books = [book].concat(this._books);
 
-    const response: CreateBookResponse = { book };
-
-    return res.json(response);
+    return res.json(book);
   };
 
   uploadBook = (req: Request, res: Response) => {
-    const bookId = req.params.id;
-    const book = { ...req.body };
+    const bookId = parseInt(req.params.id, 10);
+
+    const existedBook = this._books.find(bookItem => bookItem.id === bookId);
+
+    if (!existedBook) {
+      return res.status(400).json({
+        error: 'Book not found'
+      });
+    }
+
+    const book: Book = {
+      id: bookId,
+      title: req.body.title || existedBook.title,
+      price: 0,
+      image: '/images/default-image.jpg',
+      description: req.body.description || existedBook.description,
+      type: req.body.type || existedBook.type
+    };
+
     this._books = this._books.map(bookItem => bookItem.id === bookId ? book : bookItem);
 
-    const response: UpdateBookResponse = { book };
-
-    return res.json(response);
+    return res.json(book);
   };
 }
 
