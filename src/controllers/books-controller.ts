@@ -4,6 +4,7 @@ import {Book} from '../models/book';
 
 class BooksController {
   private _books = [...booksData];
+  private _defaultImagePath = '/images/default-image.jpg';
 
   getBooks = (req: Request, res: Response) => {
     return res.json(this._books);
@@ -21,7 +22,7 @@ class BooksController {
       id: this._books.length + 1,
       title: req.body.title || 'Default title',
       price: 0,
-      image: '/images/default-image.jpg',
+      image: this._defaultImagePath,
       description: req.body.description || 'Default description',
       type: req.body.type
     };
@@ -46,7 +47,7 @@ class BooksController {
       id: bookId,
       title: req.body.title || existedBook.title,
       price: 0,
-      image: '/images/default-image.jpg',
+      image: existedBook.image || this._defaultImagePath,
       description: req.body.description || existedBook.description,
       type: req.body.type || existedBook.type
     };
